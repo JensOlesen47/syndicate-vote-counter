@@ -42,6 +42,9 @@ async function recordVotes() {
 
     const $ = cheerio.load(html.data);
 
+    // make sure voters are shown
+    if (!$('.poll_voters_box').length) return;
+
     let vc = `\n${new Date()}\n\n`;
 
     $('.polls dl').each(function(i, e) {
