@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-let topicId = '1931', numPosts = 0;
+let topicId = '1931', numPosts = 0, cookieSid = '3ddfc4e7e62eb135a569501fb7218ace';
 
 setInterval(() => interval(), 120000);
 
@@ -25,19 +25,23 @@ async function isThereNewPosts() {
 async function recordVotes() {
     const html = await axios.get(`https://www.mafiathesyndicate.com/viewtopic.php?t=${topicId}`, {
         headers: {
-            'Cookie': 'phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=265f406ccba7e267; phpbb3_d3tvt_sid=5614c5d960af1897959f890c761d5d9f',
+            'Cookie': 'phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=3ddfc4e7e62eb135a569501fb7218ace',
             'Upgrade-Insecure-Requests': '1',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
             'Host': 'www.mafiathesyndicate.com',
             'Pragma': 'no-cache',
-            'Referer': 'https://www.mafiathesyndicate.com/index.php?sid=5614c5d960af1897959f890c761d5d9f',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0'
         },
         withCredentials: true
     });
     if (!html) {
         return;
+    }
+
+    if (html.headers['set-cookie']) {
+        const newCookie = html.headers['set-cookie'].split('phpbb3_d3tvt_sid=')[1];
+        if (newCookie) cookieSid = newCookie.substring(0, 32);
     }
 
     const $ = cheerio.load(html.data);
