@@ -31,7 +31,7 @@ async function isThereNewPosts() {
 
 async function recordVotes() {
     console.log('recording');
-    const cookieHeader = `phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=${cookieSid}`;
+    const cookieHeader = `phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=97956955d7742683; phpbb3_d3tvt_sid=${cookieSid}`;
     console.log(cookieHeader);
     const html = await axios.get(`https://www.mafiathesyndicate.com/viewtopic.php?t=${topicId}`, {
         headers: {
