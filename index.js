@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-let topicId = '1931', numPosts = 0, cookieSid = '3ddfc4e7e62eb135a569501fb7218ace';
+let topicId = '1931', numPosts = 0, cookieSid = 'b76d9ee823be70efb4aa9715e4e55427';
 
 setInterval(() => interval(), 15000);
 
