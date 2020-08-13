@@ -48,6 +48,7 @@ async function recordVotes() {
     }
 
     if (html.headers['set-cookie']) {
+        console.log(html.headers['set-cookie']);
         const newCookie = html.headers['set-cookie'].split('phpbb3_d3tvt_sid=')[1];
         console.log(`setting new cookie: ${newCookie}`);
         if (newCookie) cookieSid = newCookie.substring(0, 32);
