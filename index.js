@@ -49,7 +49,13 @@ async function recordVotes() {
 
     if (html.headers['set-cookie']) {
         console.log(html.headers['set-cookie']);
-        const newCookie = html.headers['set-cookie'].split('phpbb3_d3tvt_sid=')[1];
+        let newCookie = '';
+        if (Array.isArray(html.headers['set-cookie'])) {
+            const maybe = html.headers['set-cookie'].find(h => h.includes('phpbb3_d3tvt_sid='));
+            if (maybe) newCookie = maybe.split('phpbb3_d3tvt_sid=')[1];
+        } else {
+            newCookie = html.headers['set-cookie'].split('phpbb3_d3tvt_sid=')[1];
+        }
         console.log(`setting new cookie: ${newCookie}`);
         if (newCookie) cookieSid = newCookie.substring(0, 32);
     }
