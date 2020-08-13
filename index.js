@@ -4,7 +4,7 @@ const fs = require('fs');
 
 let topicId = '1931', numPosts = 0, cookieSid = '3ddfc4e7e62eb135a569501fb7218ace';
 
-setInterval(() => interval(), 120000);
+setInterval(() => interval(), 15000);
 
 function interval() {
     isThereNewPosts().then(bool => {
@@ -13,8 +13,10 @@ function interval() {
 }
 
 async function isThereNewPosts() {
+    console.log('polling');
     const body = await axios.get(`https://www.mafiathesyndicate.com/app.php/livetopicupdate/${topicId}/${numPosts}`);
     const newPosts = body.data.ltu_nr;
+    console.log(`read posts: ${numPosts}, new posts: ${newPosts}`);
     if (newPosts) {
         numPosts += newPosts;
         return true;
@@ -23,6 +25,7 @@ async function isThereNewPosts() {
 }
 
 async function recordVotes() {
+    console.log('recording');
     const html = await axios.get(`https://www.mafiathesyndicate.com/viewtopic.php?t=${topicId}`, {
         headers: {
             'Cookie': 'phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=3ddfc4e7e62eb135a569501fb7218ace',
@@ -41,13 +44,17 @@ async function recordVotes() {
 
     if (html.headers['set-cookie']) {
         const newCookie = html.headers['set-cookie'].split('phpbb3_d3tvt_sid=')[1];
+        console.log(`setting new cookie: ${newCookie}`);
         if (newCookie) cookieSid = newCookie.substring(0, 32);
     }
 
     const $ = cheerio.load(html.data);
 
     // make sure voters are shown
-    if (!$('.poll_voters_box').length) return;
+    if (!$('.poll_voters_box').length) {
+        console.log('voters were not shown, oops!');
+        return;
+    }
 
     let vc = `\n${new Date()}\n\n`;
 
@@ -64,5 +71,7 @@ async function recordVotes() {
 
     vc += '\n--------------------\n';
 
+    console.log('writing to file...');
     fs.appendFileSync(`${topicId}.record`, vc);
+    console.log('finished recording!');
 }
