@@ -14,7 +14,12 @@ function interval() {
 
 async function isThereNewPosts() {
     console.log('polling');
-    const body = await axios.get(`https://www.mafiathesyndicate.com/app.php/livetopicupdate/${topicId}/${numPosts}`);
+    const body = await axios.get(`https://www.mafiathesyndicate.com/app.php/livetopicupdate/${topicId}/${numPosts}`, {
+        headers: {
+            'Host': 'www.mafiathesyndicate.com',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
     const newPosts = body.data.ltu_nr;
     console.log(`read posts: ${numPosts}, new posts: ${newPosts}`);
     if (newPosts) {
