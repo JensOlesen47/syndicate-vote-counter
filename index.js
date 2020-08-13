@@ -33,7 +33,7 @@ async function recordVotes() {
     console.log('recording');
     const html = await axios.get(`https://www.mafiathesyndicate.com/viewtopic.php?t=${topicId}`, {
         headers: {
-            'Cookie': 'phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=3ddfc4e7e62eb135a569501fb7218ace',
+            'Cookie': `phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=${cookieSid}`,
             'Upgrade-Insecure-Requests': '1',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
