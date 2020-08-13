@@ -65,6 +65,7 @@ async function recordVotes() {
     // make sure voters are shown
     if (!$('.poll_voters_box').length) {
         console.log('voters were not shown, oops!');
+        fs.writeFileSync('not_shown.html', html.data);
         return;
     }
 
