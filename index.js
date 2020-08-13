@@ -31,9 +31,11 @@ async function isThereNewPosts() {
 
 async function recordVotes() {
     console.log('recording');
+    const cookieHeader = `phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=${cookieSid}`;
+    console.log(cookieHeader);
     const html = await axios.get(`https://www.mafiathesyndicate.com/viewtopic.php?t=${topicId}`, {
         headers: {
-            'Cookie': `phpbb3_d3tvt_u=744; phpbb3_d3tvt_k=; phpbb3_d3tvt_sid=${cookieSid}`,
+            'Cookie': cookieHeader,
             'Host': 'www.mafiathesyndicate.com',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0'
         },
